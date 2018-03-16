@@ -35,7 +35,7 @@ class MeasureTextNode: SCNNode {
         
         let textNode = SCNNode(geometry: textGeometry)
         textGeometry.font = UIFont.systemFont(ofSize: 1)
-        textNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
+        textNode.scale = SCNVector3Make(0.02, 0.02, 0.02)
         
         // Translate so that the text node can be seen
         let (min, max) = textGeometry.boundingBox

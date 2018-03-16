@@ -170,7 +170,7 @@ extension ARHitTestResult.ResultType {
             if #available(iOS 11.3, *) {
                 switch self {
                 case .existingPlaneUsingGeometry:
-                    return "解析済みの水平面を形状込みで利用します"
+                    return "解析済みの水平面を形状を基準に利用します"
                 case .estimatedVerticalPlane:
                     return "解析済みの垂直面を利用します"
                 default:

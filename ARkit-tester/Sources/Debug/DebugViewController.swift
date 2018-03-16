@@ -37,7 +37,7 @@ class DebugViewController: UIViewController, StoryboardInstantiable, SelectListV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "done", style: .plain, target: self, action: #selector(didTapCloseButton(sender:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(didTapCloseButton(sender:)))
     }
 
     @objc func didTapCloseButton(sender: UIBarButtonItem) {

@@ -11,12 +11,12 @@ import UIKit
 import ARKit
 import SceneKit
 
-
 /// ARMeasureViewController
 class ARMeasureViewController: UIViewController, StoryboardInstantiable {
     
     var measureNodes: [MeasureNode] = []
 
+    let metalDevice: MTLDevice? = MTLCreateSystemDefaultDevice()
     let viewModel: ARMeasureViewModel = ARMeasureViewModel()
     
     lazy var lineContainerNode: SCNNode = {
@@ -26,7 +26,7 @@ class ARMeasureViewController: UIViewController, StoryboardInstantiable {
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var centerView: UIView! {
         didSet {
-            centerView.backgroundColor = UIColor.white
+            centerView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
             centerView.layer.cornerRadius = centerView.frame.size.width / 2
         }
     }
@@ -39,7 +39,7 @@ class ARMeasureViewController: UIViewController, StoryboardInstantiable {
     
     @IBOutlet weak var button: UIButton! {
         didSet {
-            button.backgroundColor = UIColor.white
+            button.backgroundColor = UIColor.white.withAlphaComponent(0.7)
             button.layer.cornerRadius = button.frame.size.width / 2
         }
     }
@@ -86,8 +86,7 @@ class ARMeasureViewController: UIViewController, StoryboardInstantiable {
         sceneView.delegate = self
         sceneView.scene.rootNode.addChildNode(lineContainerNode)
         
-        let button = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didTapDebugButton(sender:)))
-        navigationItem.rightBarButtonItem = button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Config", style: .plain, target: self, action: #selector(didTapDebugButton(sender:)))
         
         viewModel.delegate = self
     }
@@ -232,45 +231,49 @@ extension ARMeasureViewController: ARSCNViewDelegate {
         })
     }
     
-    /// Anchor is added
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        // Draw plane
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        let plane = SCNPlane(width: width, height: height)
-        
-        plane.materials.first?.diffuse.contents = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.1)
-        
-        let planeNode = SCNNode(geometry: plane)
-        
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x,y,z)
-        planeNode.eulerAngles.x = -.pi / 2
-        
+        debugPrint("didAdd")
+        let planeNode = makePlaneNode(planeAnchor: planeAnchor)
         node.addChildNode(planeNode)
     }
     
-    /// Anchor is updated
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        guard let planeAnchor = anchor as?  ARPlaneAnchor,
-            let planeNode = node.childNodes.first,
-            let plane = planeNode.geometry as? SCNPlane
-            else { return }
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        // Update plane
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        plane.width = width
-        plane.height = height
+        debugPrint("didUpdate")
+        node.enumerateChildNodes { (childNode, _) in
+            childNode.removeFromParentNode()
+        }
+        let planeNode = makePlaneNode(planeAnchor: planeAnchor)
+        node.addChildNode(planeNode)
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        guard let _ = anchor as? ARPlaneAnchor else { return }
         
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x, y, z)
+        debugPrint("didRemove")
+        node.enumerateChildNodes { (childNode, _) in
+            childNode.removeFromParentNode()
+        }
+    }
+    
+    func makePlaneNode(planeAnchor: ARPlaneAnchor) -> SCNNode {
+        let scenePlaneGeometry = ARSCNPlaneGeometry(device: metalDevice!)
+        scenePlaneGeometry?.update(from: planeAnchor.geometry)
+        
+        let planeNode = SCNNode(geometry: scenePlaneGeometry)
+        planeNode.opacity = 0.3
+        
+        switch planeAnchor.alignment {
+        case .horizontal:
+            planeNode.geometry?.materials.first?.diffuse.contents = UIColor.yellow
+        case .vertical:
+            planeNode.geometry?.materials.first?.diffuse.contents = UIColor.red
+        }
+        
+        return planeNode
     }
     
     /// Observe tracking status and show them
@@ -282,22 +285,22 @@ extension ARMeasureViewController: ARSCNViewDelegate {
             if #available(iOS 11.3, *) {
                 switch reason {
                 case .excessiveMotion:
-                    statusLabel.text = "Please move the device slowly"
+                    statusLabel.text = "Excessive motion"
                 case .initializing:
                     statusLabel.text = "Initializing..."
                 case .insufficientFeatures:
                     statusLabel.text = "Feature point is insufficient. Please move the device."
                 default:
                     if #available(iOS 11.3, *), reason == .relocalizing {
-                        statusLabel.text = "ARKit is relocalizing."
+                        statusLabel.text = "Relocalizing..."
                     }
                 }
             }
             
         case .normal:
-            statusLabel.text = "Feature point is detected. You can measure."
+            statusLabel.text = "Feature point is detected."
         case .notAvailable:
-            statusLabel.text = "ARKit is not available now."
+            statusLabel.text = "Not available now."
         }
         
     }

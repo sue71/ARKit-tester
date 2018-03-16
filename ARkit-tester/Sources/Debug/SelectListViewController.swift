@@ -61,7 +61,7 @@ class SelectListViewController: UIViewController, StoryboardInstantiable, UITabl
         options = props.options
         selectedOptions = props.selected
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "done", style: .plain, target: self, action: #selector(didTapCloseButton(sender:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(didTapCloseButton(sender:)))
     }
     
     @objc func didTapCloseButton(sender: UIBarButtonItem) {

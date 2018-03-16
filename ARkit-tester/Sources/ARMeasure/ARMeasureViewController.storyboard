@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eQt-AS-UEv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eQt-AS-UEv">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
         <!--Measure View Controller-->
         <scene sceneID="Hwl-aR-ulg">
             <objects>
-                <viewController storyboardIdentifier="ARMeasureViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eQt-AS-UEv" customClass="ARMeasureViewController" customModule="ARKitPractice" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ARMeasureViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eQt-AS-UEv" customClass="ARMeasureViewController" customModule="ARkit_tester" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="07f-dB-gXg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,32 +31,43 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="REr-e1-6NT">
-                                <rect key="frame" x="165" y="543" width="44" height="44"/>
+                                <rect key="frame" x="157" y="527" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="GeR-2B-boP"/>
-                                    <constraint firstAttribute="width" constant="44" id="TWL-2u-K5a"/>
+                                    <constraint firstAttribute="height" constant="60" id="25H-6l-pyn"/>
+                                    <constraint firstAttribute="width" constant="60" id="mpa-He-vaH"/>
                                 </constraints>
                                 <connections>
                                     <action selector="didTapButton:" destination="eQt-AS-UEv" eventType="touchUpInside" id="Z1K-oe-4UG"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PfZ-WR-T4Y" userLabel="StatusLabel">
-                                <rect key="frame" x="16" y="36" width="95" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UB4-yv-TH5" userLabel="Background">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Status Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PfZ-WR-T4Y" userLabel="StatusLabel">
+                                        <rect key="frame" x="16" y="11" width="343" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="0j4-JD-7BT"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="PfZ-WR-T4Y" firstAttribute="top" secondItem="IBa-z6-Pj2" secondAttribute="top" constant="16" id="3DV-Od-6mh"/>
+                            <constraint firstItem="UB4-yv-TH5" firstAttribute="leading" secondItem="IBa-z6-Pj2" secondAttribute="leading" id="1GC-yl-Ra4"/>
                             <constraint firstAttribute="trailing" secondItem="uds-Cq-luV" secondAttribute="trailing" id="B4J-tA-zrM"/>
+                            <constraint firstItem="UB4-yv-TH5" firstAttribute="top" secondItem="IBa-z6-Pj2" secondAttribute="top" id="GbK-dj-aIR"/>
+                            <constraint firstItem="IBa-z6-Pj2" firstAttribute="trailing" secondItem="UB4-yv-TH5" secondAttribute="trailing" id="Xmt-ow-7hF"/>
                             <constraint firstItem="uds-Cq-luV" firstAttribute="top" secondItem="07f-dB-gXg" secondAttribute="top" id="bir-Jg-Wir"/>
                             <constraint firstAttribute="bottom" secondItem="uds-Cq-luV" secondAttribute="bottom" id="dzT-gW-ztO"/>
                             <constraint firstItem="uds-Cq-luV" firstAttribute="leading" secondItem="IBa-z6-Pj2" secondAttribute="leading" id="lzi-Q4-wEA"/>
                             <constraint firstItem="IBa-z6-Pj2" firstAttribute="bottom" secondItem="REr-e1-6NT" secondAttribute="bottom" constant="80" id="ozg-qB-rTV"/>
                             <constraint firstItem="EQ1-XA-IKJ" firstAttribute="centerX" secondItem="uds-Cq-luV" secondAttribute="centerX" id="rrT-8B-uaL"/>
-                            <constraint firstItem="PfZ-WR-T4Y" firstAttribute="leading" secondItem="IBa-z6-Pj2" secondAttribute="leading" constant="16" id="sLT-Uw-gEk"/>
                             <constraint firstItem="REr-e1-6NT" firstAttribute="centerX" secondItem="IBa-z6-Pj2" secondAttribute="centerX" id="wEh-Wx-l3c"/>
                             <constraint firstItem="EQ1-XA-IKJ" firstAttribute="centerY" secondItem="uds-Cq-luV" secondAttribute="centerY" id="wP2-5d-Mti"/>
                         </constraints>

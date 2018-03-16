@@ -13,7 +13,14 @@ import ARKit
 struct ARKitConfig {
     var sceneHitTestOptions: [SCNHitTestOption] = []
     var arHitTestOptions: [ARHitTestResult.ResultType] = [.featurePoint]
-    var planeDetectionOptions: [ARWorldTrackingConfiguration.PlaneDetection] = []
+    var planeDetectionOptions: [ARWorldTrackingConfiguration.PlaneDetection] = [.horizontal]
+    
+    init() {
+        if #available(iOS 11.3, *) {
+            arHitTestOptions = [.featurePoint, .existingPlaneUsingGeometry]
+            planeDetectionOptions = [.horizontal, .vertical]
+        }
+    }
     
     static var planeDetectionOptions: [ARWorldTrackingConfiguration.PlaneDetection] {
         if #available(iOS 11.3, *) {
